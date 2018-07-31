@@ -5,3 +5,6 @@ class DoublyLinkedNode:
         self.value = value
         self.next = None
         self.prev = None
+    
+    def __iter__(self):
+        return self.value
