@@ -2,10 +2,8 @@
 from singly_linked_node import SinglyLinkedNode
 
 class SinglyLinkedList:
-    head = None
-
     def __init__(self):
-       self.head = SinglyLinkedNode(None)
+       self.head = None
     
     def add(self, value):
         if self.head.value == None:
