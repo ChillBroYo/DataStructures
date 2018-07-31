@@ -28,9 +28,7 @@ class DoublyLinkedList:
             return True
         else:
             temp_val = self.head
-            print(temp_val.value)
             while temp_val.next != None:
-                print(temp_val.value)
                 if temp_val.next.value == value and temp_val.next.next != None:
                     next = temp_val.next.next
                     temp_val.next.next.prev = temp_val
@@ -43,10 +41,16 @@ class DoublyLinkedList:
                 temp_val = temp_val.next
 
     def print_list(self):
+        if self.head == None:
+            print("Empty List")
+            return
+        
         temp_val = self.head
         while temp_val.next != None and temp_val.value != None:
             print(temp_val.value)
             temp_val = temp_val.next
+            
+        print(temp_val.value)
 
 
 
@@ -54,13 +58,30 @@ var = DoublyLinkedList()
 var.add(1)
 var.add(2)
 var.add(3)
-# var.print_list()
-#print("-----")
-#var.remove(3)
-#var.print_list()
-#print("-----")
-#var.remove(2)
-#var.print_list()
-#print("-----")
-#var.remove(1)
-#var.print_list()
+var.add(4)
+var.add(5)
+var.print_list()
+print("-----")
+var.remove(3)
+var.print_list()
+print("-----")
+var.remove(2)
+var.print_list()
+print("-----")
+var.remove(1)
+var.print_list()
+print("-----")
+var.remove(4)
+var.print_list()
+print("-----")
+var.remove(5)
+var.print_list()
+print("-----")
+var.remove(1)
+var.print_list()
+print("-----")
+var.add(1)
+var.print_list()
+print("-----")
+var.remove(1)
+var.print_list()
