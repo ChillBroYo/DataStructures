@@ -38,7 +38,7 @@ class DoublyLinkedList:
             temp_val.next = DoublyLinkedNode(value)
             temp_val.next.prev = temp_val
 
-    def remove(self, value):
+    def remove(self, value, remove_all=False):
         if self.head == None:
             return False
         elif self.head.value == value and self.head.next == None:
@@ -49,19 +49,27 @@ class DoublyLinkedList:
             self.head = self.head.next
             return True
         else:
-            print(str.format("self.head.value = {}",self.head.value))
             temp_val = self.head
             while temp_val.next != None:
+                print(str.format("self.tv.value = {}",temp_val.value))
+                print(str.format("self.tvn.value = {}",temp_val.next.value))
                 if temp_val.next.value == value and temp_val.next.next != None:
+                    print(str.format("Entered here"))
                     next = temp_val.next.next
                     temp_val.next.next.prev = temp_val
                     temp_val.next.prev = None
                     temp_val.next.next = None
                     temp_val.next = next
+                    if remove_all == False:
+                        break
                 elif temp_val.next.value == value and temp_val.next.next == None:
+                    print(str.format("Entered there"))
                     temp_val.next.prev = None
                     temp_val.next = None
-                temp_val = temp_val.next
+                    if remove_all == False:
+                        break
+                else:
+                    temp_val = temp_val.next
 
     def print_list(self):
         if self.head == None:
