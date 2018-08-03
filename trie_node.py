@@ -6,11 +6,6 @@ class TrieNode:
         self.parent = parent
         self.value = value
         self.times_added = 0
-    
-    # Check if a child exists within via dfs
-    def is_sub_child_dfs(self, value):
-        for node in self.children:
-            self.recursion_helper(value, None, self)
             
     def recursion_helper(self, value, pass_value=None, pass_node=None):
         if self.value == value:
