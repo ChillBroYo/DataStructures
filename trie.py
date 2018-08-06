@@ -1,5 +1,6 @@
 # create Trie data structure
 from trie_node import TrieNode
+from collections import deque
 
 class Trie:
     def __init__(self):
@@ -27,6 +28,24 @@ class Trie:
             for child in node_to_search_through.children:
                 self.dfs_helper(node_to_search_through.children[child])
 
+    def bfs_traversal(self):
+        if self.root == None:
+            return False
+        
+        print (self.root.value)
+        queue = deque()
+        for index in self.root.children:
+            queue.append(self.root.children[index])
+        
+        while len(queue) > 0:
+            val = queue.pop()
+            print(val.value)
+            for child in val.children:
+                queue.append(val.children[child])
+        
+
+
+
 var = Trie()
 # var.root = TrieNode(1)
 # print(var.root.value)
@@ -37,3 +56,5 @@ val.children[2].children[6].add_child(7)
 val.add_child(3)
 var.root = val
 var.dfs_traversal_print()
+print("_____")
+var.bfs_traversal()
