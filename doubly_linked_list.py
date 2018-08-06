@@ -37,6 +37,8 @@ class DoublyLinkedList:
                 else:
                     temp_val = temp_val.next
                 count += 1
+            
+            return -1
     
     def remove_duplicates(self, val):
         if self.head == None:
