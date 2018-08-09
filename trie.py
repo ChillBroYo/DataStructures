@@ -46,16 +46,16 @@ class Trie:
         return True
 
 
-
-var = Trie()
-# var.root = TrieNode(1)
-# print(var.root.value)
-val = TrieNode(1)
-val.add_child(2)
-val.children[2].add_child(6)
-val.children[2].children[6].add_child(7)
-val.add_child(3)
-var.root = val
-var.dfs_traversal_print()
-print("_____")
-var.bfs_traversal()
+if __name__ == "__main__":
+    var = Trie()
+    # var.root = TrieNode(1)
+    # print(var.root.value)
+    val = TrieNode(1)
+    val.add_child(2)
+    val.children[2].add_child(6)
+    val.children[2].children[6].add_child(7)
+    val.add_child(3)
+    var.root = val
+    var.dfs_traversal_print()
+    print("_____")
+    var.bfs_traversal()
