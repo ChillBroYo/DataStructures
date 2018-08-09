@@ -11,14 +11,19 @@ class DoublyLinkedNode:
 
     def remove(self):
         if self.next == None and self.prev == None:
-            self.value = None
+            del self
         elif self.next == None:
-            self.value == None
             self.prev.next = None
             self.prev = None
-        else:
-            self.value == None
+            del self
+        elif self.prev == None:
             self.next.prev = None
-            self.prev.next = None
+            self.next = None
+            del self
+        # has both sides
+        else:
+            self.next.prev = self.prev
+            self.prev.next = self.next
             self.prev = None
             self.next = None
+            del self

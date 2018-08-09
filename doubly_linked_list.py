@@ -39,6 +39,26 @@ class DoublyLinkedList:
                 count += 1
             
             return -1
+        
+    def get_at_index(self, index):
+        # print("11111" + str(index))
+        if self.head == None:
+            return IndexError("No values exist")
+        elif index == 0:
+            return self.head
+        else:
+            count = 0
+            temp_val = self.head
+            while count != index:
+                if temp_val.next == None:
+                    raise IndexError(str.format("Index {} doesn't exist", index))
+                temp_val = temp_val.next
+                count += 1
+            
+            if count != index:
+                raise IndexError(str.format("Index {} doesn't exist", index))
+            
+        return temp_val
     
     def remove_duplicates(self, val):
         if self.head == None:
@@ -64,16 +84,55 @@ class DoublyLinkedList:
             temp_val.next = DoublyLinkedNode(value)
             temp_val.next.prev = temp_val
         self.count += 1
+    
+    def add_at_front(self, value):
+        if self.head == None:
+            self.head = DoublyLinkedNode(value)
+        else:
+            temp_val = DoublyLinkedNode(value)
+            temp_val.next = self.head
+            self.head = temp_val
+        self.count += 1
+
+    def remove_end(self):
+        if self.head == None:
+            raise IndexError("Empty List")
+        if self.count == 1:
+            self.head = None
+            self.count -= 1
+            return
+
+        temp_val = self.head
+        for x in range(1, self.count):
+            temp_val = temp_val.next
+
+        temp_val.remove()
+        self.count -= 1
 
     def remove_at_index(self, index):
         if index >= self.count:
             return False
+        
+        if index == 0 and self.count > 1:
+            temp_val = self.head
+            self.head = self.head.next
+            temp_val.remove()
+            self.count -= 1
+            return True
+        elif index == 0:
+            temp_val = self.head
+            self.head = None
+            temp_val.remove()
+            self.count -= 1
+            return True
 
         temp_val = self.head
         for x in range(1, index):
             temp_val = temp_val.next
         
         temp_val.remove()
+        self.count -= 1
+        return True
 
     def remove(self, value, remove_all=False):
         if self.head == None:
@@ -111,17 +170,22 @@ class DoublyLinkedList:
                     temp_val = temp_val.next
             self.count -= 1
 
-    def print_list(self):
+    def print_list(self, return_string=False):
+        val = ""
         if self.head == None:
-            print("Empty List")
-            return
+            val += "Empty List"
+            return val
         
         temp_val = self.head
         while temp_val.next != None and temp_val.value != None:
-            print(temp_val.value)
+            val += str(temp_val.value)
+            val += "\n"
             temp_val = temp_val.next
             
-        print(temp_val.value)
+        val += str(temp_val.value)
+        if return_string == True:
+            return val
+        print(val)
 
 
 if __name__ == "__main__":
