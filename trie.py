@@ -43,6 +43,7 @@ class Trie:
             for child in val.children:
                 queue.append(val.children[child])
         
+        return True
 
 
 
