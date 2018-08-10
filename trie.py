@@ -1,6 +1,7 @@
 # create Trie data structure
 from trie_node import TrieNode
 from collections import deque
+from queue import Queue
 
 class Trie:
     def __init__(self):
@@ -45,6 +46,23 @@ class Trie:
         
         return True
 
+    def bfs_traversal_custom_queue(self):
+        if self.root == None:
+            return False
+        
+        print (self.root.value)
+        queue = Queue()
+        for index in self.root.children:
+            queue.enqueue(self.root.children[index])
+        
+        while len(queue) > 0:
+            val = queue.dequeue()
+            print(val.value)
+            for child in val.children:
+                queue.enqueue(val.children[child])
+        
+        return True
+
 
 if __name__ == "__main__":
     var = Trie()
@@ -52,10 +70,17 @@ if __name__ == "__main__":
     # print(var.root.value)
     val = TrieNode(1)
     val.add_child(2)
-    val.children[2].add_child(6)
-    val.children[2].children[6].add_child(7)
     val.add_child(3)
+    val.children[2].add_child(4)
+    val.children[2].add_child(5)
+    val.children[3].add_child(6)
+    val.children[3].add_child(7)
+    val.children[2].children[4].add_child(8)
+    val.children[3].children[6].add_child(9)
+    val.add_child(10)
     var.root = val
     var.dfs_traversal_print()
-    print("_____")
+    print("-----")
     var.bfs_traversal()
+    print("-----")
+    var.bfs_traversal_custom_queue() 

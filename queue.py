@@ -8,6 +8,12 @@ class Queue:
         self.storage = DoublyLinkedList()
         self.size = 0
     
+    def __str__(self):
+        return self.storage.print_list(True)
+    
+    def __len__(self):
+        return self.size
+    
     def enqueue(self, val):
         if self.size >= self.max_size:
             raise MemoryError("Queue is full")
@@ -19,17 +25,16 @@ class Queue:
         if self.size < 1:
             raise MemoryError("Queue is empty")
         
+        val = self.storage.get_at_index(0)
         self.storage.remove_at_index(0)
         self.size -= 1
+        return val.value
     
     def peek(self):
         if self.size < 1:
             return "None"
 
         return self.storage.get_at_index(0).value
-    
-    def __str__(self):
-        return self.storage.print_list(True)
 
 
 if __name__ == "__main__":
