@@ -7,13 +7,33 @@ class Queue:
         self.max_size = size
         self.storage = DoublyLinkedList()
         self.size = 0
+        self.counter_val = None
     
     def __str__(self):
         return self.storage.print_list(True)
     
     def __len__(self):
         return self.size
+
+    def __iter__(self):
+        if self.size < 1:
+            return None
+
+        self.counter_val = self.storage.get_at_index(0)
+        return self.storage.get_at_index(0)
+
     
+    def __next__(self):
+        if self.counter_val == None:
+            raise StopIteration
+        if self.counter_val.next != None:
+            self.counter_val = self.counter_val.next
+            return self.counter_val.prev
+        else:
+            temp_val = self.counter_val
+            self.counter_val = self.counter_val.next
+            return temp_val
+
     def enqueue(self, val):
         if self.size >= self.max_size:
             raise MemoryError("Queue is full")

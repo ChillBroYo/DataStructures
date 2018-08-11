@@ -49,29 +49,40 @@ class Trie:
         else:
             print(self.root.value)
         queue = deque()
+
         for index in self.root.children:
             queue.append(self.root.children[index])
-        
+
         while len(queue) > 0:
-            val = queue.pop()
-            print(val.value)
+            val = queue.popleft()
+            if path_print == True:
+                print(str.format("{} --> ",val.value), end="")
+            else:
+                print(val.value)
             for child in val.children:
                 queue.append(val.children[child])
-        
+        if path_print == True:
+            print("")
         return True
 
-    def bfs_traversal_custom_queue(self):
+    def bfs_traversal_custom_queue(self, path_print=False):
         if self.root == None:
             return False
         
-        print (self.root.value)
+        if path_print == True:
+            print (str.format("{} --> ",self.root.value), end="")
+        else:
+            print(self.root.value)
         queue = Queue()
         for index in self.root.children:
             queue.enqueue(self.root.children[index])
         
         while len(queue) > 0:
             val = queue.dequeue()
-            print(val.value)
+            if path_print == True:
+                print(str.format("{} --> ",val.value), end="")
+            else:
+                print(val.value)
             for child in val.children:
                 queue.enqueue(val.children[child])
         
@@ -95,6 +106,6 @@ if __name__ == "__main__":
     var.root = val
     var.dfs_traversal_print(True)
     print("-----")
-    var.bfs_traversal()
+    var.bfs_traversal(True)
     print("-----")
-    var.bfs_traversal_custom_queue() 
+    var.bfs_traversal_custom_queue(True)
