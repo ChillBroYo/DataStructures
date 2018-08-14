@@ -1,7 +1,8 @@
-# Create connections between graph nodes
+# Create connection class
 
-class GraphConnection:
-    def __init__(self, value, start, end):
+class GraphNodeConnection():
+    def __init__(self, start_node, end_node, value, is_directed=False):
+        self.is_directed = is_directed
+        self.start_node = start_node
+        self.end_node = end_node
         self.value = value
-        self.start = start
-        self.end = end
