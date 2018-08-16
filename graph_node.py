@@ -9,28 +9,28 @@ class GraphNode:
     def add_connection(self, node_to_connect_to, value_of_connection, new_node=False, directed=False):
         if new_node == True:
             node_to_connect_to = GraphNode(node_to_connect_to)
-        
+
         exists = False
         for conn in self.connections:
             if conn.end_node.value == node_to_connect_to.value:
                 exists = True
         
         if exists == False and directed == False:
+            #print("falsefalse")
             self.connections.append(GraphNodeConnection(self, node_to_connect_to, value_of_connection))
             node_to_connect_to.connections.append(GraphNodeConnection(node_to_connect_to, self, value_of_connection))
-            print("falsefalse")
         elif exists == False and directed == True:
+            #print("falsetrue")
             self.connections.append(GraphNodeConnection(self, node_to_connect_to, value_of_connection, is_directed=True))
-            print("falsetrue")
         elif exists == True and directed == False:
+            #print("truefalse")
             exists = False
             for conn in node_to_connect_to.connections:
                 if conn.end_node == self:
                     exists = True
-            print("truefalse")
                 
             if not exists:
-                node_to_connect_to.add_connection(value, self)
+                node_to_connect_to.connections.append(GraphNodeConnection(node_to_connect_to, self, value_of_connection))
         
 
             
@@ -63,5 +63,7 @@ if __name__ == "__main__":
     var.add_connection(2,5, new_node=True)
     var.add_connection(3,6, new_node=True)
     var.add_connection(4,6, new_node=True, directed=True)
-    var.add_connection(4,6, new_node=True, directed=True)
+    var.add_connection(5,6, new_node=True, directed=True)
+    val = GraphNode(10)
+    var.add_connection(val, 7)
     var.print_connections()

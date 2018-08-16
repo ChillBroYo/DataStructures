@@ -2,7 +2,7 @@
 import sys
 from doubly_linked_list import DoublyLinkedList
 
-class Queue:
+class CustomQueue:
     def __init__(self, size=sys.maxsize):
         self.max_size = size
         self.storage = DoublyLinkedList()
