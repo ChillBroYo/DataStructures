@@ -295,11 +295,6 @@ if __name__ == "__main__":
     C = TrieNode(sys.maxsize)
     D = TrieNode(sys.maxsize)
     E = TrieNode(sys.maxsize)
-    A = TrieNode(0)
-    B = TrieNode(1)
-    C = TrieNode(2)
-    D = TrieNode(3)
-    E = TrieNode(4)
     len_val = ["A", "B", "C", "D", "E"]
 
     edges = []
