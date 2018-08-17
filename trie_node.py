@@ -6,6 +6,12 @@ class TrieNode:
         self.parent = parent
         self.value = value
         self.times_added = 0
+
+    def __lt__(self, other):
+        return self.value < other.value
+
+    def __gt__(self, other):
+        return self.value > other.value
             
     def recursion_helper(self, value, pass_value=None, pass_node=None):
         if self.value == value:
