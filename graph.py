@@ -1,13 +1,40 @@
 # Create the graph structure
 from graph_node import GraphNode
+from graph_node_connection import GraphNodeConnection
 
 class Graph():
     def __init__(self):
         self.size = 0
         self.graph_start = None
+        self.verticies = []
+        self.edges = []
     
-    def add_vertex(self, value, node_to_connect_to):
-        pass
+    def add_vertex(self, value, ensure_unique=False):
+        if not ensure_unique:
+            new_graph_node = GraphNode(value)
+            self.verticies.append(new_graph_node)
+        else:
+            for vertex in self.verticies:
+                if vertex.value == value:
+                    return False
+            new_graph_node = GraphNode(value)
+            self.verticies.append(new_graph_node)
+        
+        return True
+
+    def add_edge(self, value, start_node, end_node, is_directed):
+        exists = False
+        for edge in self.edges:
+            if edge.start_node == start_node and edge.end_node == end_node:
+                edge = GraphNodeConnection(start_node, end_node, value, is_directed=is_directed)
+                exists = True
+        
+        if not exists:
+            self.edges.append(GraphNodeConnection(start_node, end_node, value, is_directed=is_directed))
+        
+        return True
+        
+        
 
     # Returns a tuple of the item found, null if it didn't along with the cost to find it
     def dfs_find(self, value_to_find, debug=None):
