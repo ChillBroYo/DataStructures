@@ -2,13 +2,20 @@
 from graph_node_connection import GraphNodeConnection
 
 class GraphNode:
-    def __init__(self, value):
+    def __init__(self, value, name):
         self.connections = []
         self.value = value
+        self.name = name
 
-    def add_connection(self, node_to_connect_to, value_of_connection, new_node=False, directed=False):
+    def __lt__(self, other):
+        return self.value < other.value
+
+    def __gt__(self, other):
+        return self.value > other.value
+
+    def add_connection(self, node_to_connect_to, value_of_connection, end_node_name, new_node=False, directed=False):
         if new_node == True:
-            node_to_connect_to = GraphNode(node_to_connect_to)
+            node_to_connect_to = GraphNode(node_to_connect_to, end_node_name)
 
         exists = False
         for conn in self.connections:
@@ -59,11 +66,11 @@ class GraphNode:
 
 
 if __name__ == "__main__":
-    var = GraphNode(1)
-    var.add_connection(2,5, new_node=True)
-    var.add_connection(3,6, new_node=True)
-    var.add_connection(4,6, new_node=True, directed=True)
-    var.add_connection(5,6, new_node=True, directed=True)
-    val = GraphNode(10)
-    var.add_connection(val, 7)
+    var = GraphNode(1, "A")
+    var.add_connection(2,5,"B", new_node=True)
+    var.add_connection(3,6, "C", new_node=True)
+    var.add_connection(4,6, "D", new_node=True, directed=True)
+    var.add_connection(5,6, "E", new_node=True, directed=True)
+    val = GraphNode(10, "F")
+    var.add_connection(val, 7, "G")
     var.print_connections()

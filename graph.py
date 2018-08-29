@@ -3,6 +3,7 @@ import copy
 import sys
 from graph_node import GraphNode
 from graph_node_connection import GraphNodeConnection
+import heapq
 
 class Graph():
     def __init__(self):
@@ -11,15 +12,15 @@ class Graph():
         self.verticies = []
         self.edges = []
     
-    def add_vertex(self, value, ensure_unique=False):
+    def add_vertex(self, value, name, ensure_unique=False):
         if not ensure_unique:
-            new_graph_node = GraphNode(value)
+            new_graph_node = GraphNode(value, name)
             self.verticies.append(new_graph_node)
         else:
             for vertex in self.verticies:
                 if vertex.value == value:
                     return False
-            new_graph_node = GraphNode(value)
+            new_graph_node = GraphNode(value, name)
             self.verticies.append(new_graph_node)
         
         return True
@@ -82,7 +83,10 @@ class Graph():
     def shortest_path(self, value_to_find):
         
         unvisited = copy.deepcopy(self.verticies)
-        unvisited.remove(self.graph_start)
+        for vertex in unvisited:
+            if vertex.value == self.graph_start.value:
+                unvisited.remove(vertex)
+                break
         visited = [copy.deepcopy(self.graph_start)]
 
         visited[0].value = 0
@@ -92,7 +96,7 @@ class Graph():
             work_node = visited[len(visited) - 1]
 
             # Check all adjacent nodes and change the values only if the current is bigger
-            for edge in edges:
+            for edge in self.edges:
                 if edge.start_node == work_node and edge.end_node.value > edge.value + work_node.value:
                     if edge.end_node not in visited:
                         edge.end_node.value = edge.value + work_node.value
@@ -101,21 +105,29 @@ class Graph():
             smallest_item = heapq.heappop(unvisited)
             visited.append(smallest_item)
 
-            if smallest_item == value_to_find:
+            if smallest_item.value == value_to_find:
                 print(str.format("Shortest Path: {}", smallest_item.value))
                 break
+            else:
+                for vertex in visited:
+                    print(vertex.value)
+                print("---")
+                for vertex in unvisited:
+                    print(vertex.value)
+                print("---")
+                print(smallest_item.value)
+                print("----------")
         
         print("finish")
             
 
 if __name__ == "__main__":
     var = Graph()
-    A = GraphNode(sys.maxsize)
-    B = GraphNode(sys.maxsize)
-    C = GraphNode(sys.maxsize)
-    D = GraphNode(sys.maxsize)
-    E = GraphNode(sys.maxsize)
-    len_val = ["A", "B", "C", "D", "E"]
+    A = GraphNode(sys.maxsize, "A")
+    B = GraphNode(sys.maxsize, "B")
+    C = GraphNode(sys.maxsize, "C")
+    D = GraphNode(sys.maxsize, "D")
+    E = GraphNode(sys.maxsize, "E")
 
     var.verticies = [A, B, C, D, E]
     var.graph_start = A
