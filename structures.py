@@ -66,6 +66,7 @@ class DoublyLinkedList:
         while iter_node.next != None:
             iter_node = iter_node.next
         iter_node.next = DoublyLinkedNode(val)
+        iter_node.next.prev = iter_node
         self.tail = iter_node.next
         self.size += 1
     
@@ -179,6 +180,111 @@ class Queue:
         self.i_list.remove_index(self.size - 1)
         self.size -= 1
         return True
+    
+    def print(self):
+        self.i_list.print()
+
+class BinarySearchTree:
+    def __init__(self, self_balancing):
+        self.head = None
+        self.size = 0
+    
+    def insert(self, val):
+        if self.head == None:
+            self.head = BinaryNode(None, val)
+            self.size += 1
+            return
+        
+        iter_node = self.head
+        while iter_node != None:
+            if iter_node.value == val:
+                pass
+            elif iter_node.value < val and iter_node.right == None:
+                iter_node.right = BinaryNode(iter_node, val)
+                self.size += 1
+                break
+            elif iter_node.value > val and iter_node.left == None:
+                iter_node.left = BinaryNode(iter_node, val)
+                self.size += 1
+                break
+            elif iter_node.value < val:
+                iter_node = iter_node.right
+            elif iter_node.value > val:
+                iter_node = iter_node.left
+        
+    def remove(self, val):
+        if self.head == None:
+            return False
+        
+        if self.head.value == val and self.head.left == None and self.head.right == None:
+            self.head = None
+        elif self.head.value == val and self.head.left == None and self.head.right != None:
+            self.head = self.head.right
+        elif self.head.value == val and self.head.left != None and self.head.right == None:
+            self.head = self.head.left
+        else:
+            l_path = False
+            iter_node = self.head
+            while iter_node != None:
+                if iter_node.value != val and iter_node.left == None and iter_node.right == None:
+                    return False
+                elif iter_node.value < val and iter_node.right == None:
+                    return False
+                elif iter_node.value > val and iter_node.left == None:
+                    return False
+                
+                if iter_node.value == val and iter_node.left == None and iter_node.right == None:
+                    if l_path == True:
+                        iter_node.parent = None
+                        iter_node.parent.left = None
+                    else:
+                        iter_node.parent = None
+                        iter_node.parent.right = None
+                elif iter_node.value == val and iter_node.left != None and iter_node.right == None:
+                    if l_path == True:
+                        iter_node.left.parent = iter_node.parent
+                        iter_node.parent.left = iter_node.left
+                    else:
+                        iter_node.left.parent = iter_node.parent
+                        iter_node.parent.right = iter_node.left
+                elif iter_node.value == val and iter_node.left == None and iter_node.right != None:
+                    if l_path == True:
+                        iter_node.right.parent = iter_node.parent
+                        iter_node.parent.left = iter_node.right
+                    else:
+                        iter_node.right.parent = iter_node.parent
+                        iter_node.parent.right = iter_node.left
+                elif iter_node.value == val and iter_node.left != None and iter_node.right != None:
+                    if l_path == True:
+                        lr_val = iter_node.right
+                        iter_node.left.parent = iter_node.parent
+                        iter_node.parent.left = iter_node.left
+                        farthest_rl = iter_node.parent.right
+                        if farthest_rl == None:
+                            iter_node.parent.right = lr_val
+                            lr_val.parent = iter_node.parent.right
+                        else:
+                            while farthest_rl.left == None:
+                                farthest_rl = farthest_rl.left
+                            farthest_rl.left = lr_val
+                            lr_val.parent = farthest_rl.left
+                    else:
+                        lr_val = iter_node.right
+                        iter_node.left.parent = iter_node.parent
+                        iter_node.parent.right = iter_node.left
+                        farthest_rl = iter_node.parent.right
+                        if farthest_rl == None:
+                            iter_node.parent.right = lr_val
+                            lr_val.parent = iter_node.parent.right
+                        else:
+                            while farthest_rl.left == None:
+                                farthest_rl = farthest_rl.left
+                            farthest_rl.left = lr_val
+
+
+                    
+
+
 
 class SinglyLinkedNode:
     def __init__(self, value):
@@ -203,6 +309,13 @@ class DoublyLinkedNode:
     def remove_before(self):
         self.next.prev = self.prev
         self.prev.next = self.next
+    
+class BinaryNode:
+    def __init__(self, parent, val):
+        self.parent = parent
+        self.value = val
+        self.right = None
+        self.left = None
 
 if __name__ == "__main__":
     sllist = SinglyLinkedList()
@@ -241,3 +354,13 @@ if __name__ == "__main__":
     stack.pop()
     print(stack.size)
     stack.print()
+
+    queue = Queue(3)
+    queue.enqueue(1)
+    queue.enqueue(2)
+    queue.enqueue(3)
+    queue.enqueue(4)
+    queue.print()
+    queue.dequeue()
+    print(queue.size)
+    queue.print()
