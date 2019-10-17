@@ -32,64 +32,82 @@ def dfs(x, y, path, board):
 def bfs(x, y, path, board):
     storage = CustomQueue()
     storage.enqueue([y, x, board[y][x]])
+    storage_list = [[y, x, board[y][x]]]
     processed = []
-
     while len(storage) > 0:
-        curr_val = storage.dequeue()
-        processed.append(curr_val[2])
-        if len(board) > curr_val[0] + 1:
-            print("entered1")
-            n_val = board[curr_val[0] + 1][curr_val[1]]
-            exists = False
-            for item in processed:
-                if item == n_val:
-                    exists = True
-            for item in storage:
-                if item[2] == n_val:
-                    exists = True
-            if not exists:
-                storage.enqueue([curr_val[0] + 1, curr_val[1], board[curr_val[0] + 1][curr_val[1]]])
-        if curr_val[0] - 1 >= 0:
-            print("entered2")
-            n_val = board[curr_val[0] - 1][curr_val[1]]
-            exists = False
-            for item in processed:
-                if item == n_val:
-                    exists = True
-            for item in storage:
-                if item[2] == n_val:
-                    exists = True
-            if not exists:
-                storage.enqueue([curr_val[0] - 1, curr_val[1], board[curr_val[0] - 1][curr_val[1]]])
-        if len(board[0]) > curr_val[1] + 1:
-            print("entered3")
-            n_val = board[curr_val[0]][curr_val[1] + 1]
-            exists = False
-            for item in processed:
-                if item == n_val:
-                    exists = True
-            for item in storage:
-                if item[2] == n_val:
-                    exists = True
-            if not exists:
-                storage.enqueue([curr_val[0], curr_val[1] + 1, board[curr_val[0]][curr_val[1] + 1]])
-        if curr_val[1] - 1 >= 0:
-            print("entered4")
-            n_val = board[curr_val[0]][curr_val[1] - 1]
-            exists = False
-            for item in processed:
-                if item == n_val:
-                    exists = True
-            for item in storage:
-                if item[2] == n_val:
-                    exists = True
-            if not exists:
-                storage.enqueue([curr_val[0], curr_val[1] - 1, board[curr_val[0]][curr_val[1] - 1]])
+        curr_item = storage.dequeue()
+        processed.append(curr_item)
+        c_y = curr_item[0]
+        c_x = curr_item[1]
+
+        # Down
+        if len(board) > c_y + 1:
+            down_item = [c_y + 1, c_x, board[c_y + 1][c_x]]
+            if down_item not in storage_list:
+                storage.enqueue(down_item)
+                storage_list.insert(0, down_item)
+
+        # Up
+        if c_y - 1 > 0:
+            up_item = [c_y - 1, c_x, board[c_y - 1][c_x]]
+            if up_item not in storage_list:
+                storage.enqueue(up_item)
+                storage_list.insert(0, up_item)
+        
+        # Right
+        if len(board[0]) > c_x + 1:
+            right_item = [c_y, c_x + 1, board[c_y][c_x + 1]]
+            if right_item not in storage_list:
+                storage.enqueue(right_item)
+                storage_list.insert(0, right_item)
+        
+        # Left
+        if c_x - 1 > 0:
+            left_item = [c_y, c_x - 1, board[c_y][c_x - 1]]
+            if left_item not in storage_list:
+                storage.enqueue(left_item)
+                storage_list.insert(0, left_item)
+
+        print(storage_list)
+        storage_list[:-1]
+
+# Takes set of words and sees if they exist in the set from the specified node
+def dfs_get(x, y, path, words, board, words_found):
+    if len(board) <= y or y < 0:
+        return words_found
+    elif len(board[0]) <= x or x < 0:
+        return words_found
+    else:
+        for char in path:
+            if char == board[y][x]:
+                return words_found
     
-    print(processed)
+    path.append(board[y][x])
+
+    for word in words:
+        if word == "".join(path):
+            words_found.append(word)
+
+    
+    dfs_get(x, y + 1, path[:], words, board, words_found)
+    dfs_get(x, y - 1, path[:], words, board, words_found)
+    dfs_get(x + 1, y, path[:], words, board, words_found)
+    dfs_get(x - 1, y, path[:], words, board, words_found)
+
+    return words_found
 
 
 if __name__ == "__main__":
-    board = [["a", "b", "c"], ["d", "e", "f"], ["g", "h", "i"]]
+    board = [["a", "b", "c"],
+             ["d", "e", "f"],
+             ["g", "h", "i"]]
+
+    words = ["bad", "fed", "bed", "deb", "behifcb", "find", "hid", "back"]
     #dfs(0, 0, [], board)
-    bfs(0,0, [], board)
+    #bfs(0, 0, [], board)
+    words_found = []
+    for y in range(len(board)):
+        for x in range(len(board[0])):
+            words_found.extend(dfs_get(x,y,[],words, board,[]))
+    
+    print(words_found)
