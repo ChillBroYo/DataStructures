@@ -1,4 +1,4 @@
-# Create a queue
+# Create a queue class
 import sys
 from doubly_linked_list import DoublyLinkedList
 
